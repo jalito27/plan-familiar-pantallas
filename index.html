@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Plan Familiar de Uso de Pantallas - #UseTech4Good</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- html2pdf.js for Client-side PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        indigoBrand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Responsive Mobile Inputs */
+        input[type="text"], input[type="time"], input[type="date"] {
+            font-size: 16px !important; /* Prevents auto-zoom on iOS */
+        }
+
+        /* Print Specific Styling for clean PDF export */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: white !important;
+                color: black !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .pdf-container {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+            input[type="text"], input[type="time"], input[type="date"] {
+                border: none !important;
+                border-bottom: 1px solid #94a3b8 !important;
+                border-radius: 0 !important;
+                background: transparent !important;
+            }
+        }
+
+        /* Custom Scrollbar for smooth mobile scrolling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-indigoBrand-100 selection:text-indigoBrand-700">
+
+    <!-- Navigation / Sticky Header Bar -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 no-print shadow-sm">
+        <div class="max-w-5xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+            <div class="flex items-center space-x-2 sm:space-x-3 overflow-hidden">
+                <div class="bg-indigoBrand-600 text-white p-2 rounded-xl flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 shrink-0 shadow-md">
+                    <i class="fa-solid fa-house-signal text-base sm:text-lg"></i>
+                </div>
+                <div class="truncate">
+                    <span class="text-[10px] sm:text-xs font-bold tracking-wider text-indigoBrand-600 uppercase block leading-tight">#UseTech4Good</span>
+                    <h1 class="text-xs sm:text-base font-bold text-slate-800 leading-tight truncate">Plan Familiar de Uso de Pantallas</h1>
+                </div>
+            </div>
+            
+            <!-- Quick Action Buttons -->
+            <div class="flex items-center space-x-1.5 sm:space-x-3 shrink-0">
+                <button onclick="openQRModal()" aria-label="Compartir mediante QR" class="inline-flex items-center justify-center space-x-1.5 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 text-xs sm:text-sm font-semibold h-10 px-3 rounded-xl transition duration-200">
+                    <i class="fa-solid fa-qrcode text-sm sm:text-base"></i>
+                    <span class="hidden sm:inline">Compartir QR</span>
+                </button>
+                <button onclick="downloadPDF()" aria-label="Descargar en PDF" class="inline-flex items-center justify-center space-x-1.5 bg-indigoBrand-600 hover:bg-indigoBrand-700 active:bg-indigoBrand-800 text-white text-xs sm:text-sm font-semibold h-10 px-3.5 sm:px-4 rounded-xl transition duration-200 shadow-sm">
+                    <i class="fa-solid fa-file-arrow-down text-sm sm:text-base"></i>
+                    <span class="hidden xs:inline">Descargar PDF</span>
+                    <span class="xs:hidden">PDF</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-8 flex-grow w-full">
+        <div id="pdf-content" class="pdf-container bg-white rounded-2xl shadow-lg sm:shadow-xl border border-slate-200/80 p-4 sm:p-8 md:p-12 space-y-8 sm:space-y-10">
+
+            <!-- Banner Section -->
+            <div class="text-center border-b border-slate-100 pb-6 sm:pb-8 space-y-3 sm:space-y-4">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] sm:text-xs font-semibold uppercase tracking-wide border border-emerald-200/60">
+                    <i class="fa-solid fa-shield-heart text-xs"></i>
+                    <span>Convivencia Digital Consciente</span>
+                </div>
+                <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                    Plan Familiar de Uso de Pantallas
+                </h1>
+                <p class="text-sm sm:text-lg font-medium text-indigoBrand-600 italic px-2">
+                    "Desconectando el pánico, conectando la presencia"
+                </p>
+                <p class="text-xs sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed px-2">
+                    Un acuerdo participativo, consciente y adaptativo para la convivencia digital en nuestro hogar. @Jalito27
+                </p>
+            </div>
+
+            <!-- Section: ¿Por qué un plan? & Reglas de Oro -->
+            <div class="grid md:grid-cols-2 gap-4 sm:gap-8">
+                <!-- Why Plan -->
+                <div class="bg-slate-50/90 rounded-xl p-4 sm:p-6 border border-slate-200/80 space-y-2.5 sm:space-y-3">
+                    <div class="flex items-center space-x-2.5 text-indigoBrand-600">
+                        <i class="fa-solid fa-circle-question text-lg sm:text-xl"></i>
+                        <h2 class="text-base sm:text-lg font-bold text-slate-800">📌 ¿Por qué un Plan Familiar?</h2>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        La tecnología no es nuestra enemiga, pero tampoco es neutral. Fue diseñada por empresas multimillonarias para capturar la atención de nuestros hijos (y la nuestra).
+                    </p>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        Intentar poner límites de forma solitaria o impulsiva suele terminar en discusiones y culpa. Este plan no es un reglamento impuesto ni punitivo: es un <strong>pacto de convivencia</strong> que se construye conversando entre todos los integrantes del hogar.
+                    </p>
+                </div>
+
+                <!-- Golden Rules -->
+                <div class="bg-amber-50/70 rounded-xl p-4 sm:p-6 border border-amber-200/80 space-y-2.5 sm:space-y-3">
+                    <div class="flex items-center space-x-2.5 text-amber-700">
+                        <i class="fa-solid fa-brain text-lg sm:text-xl"></i>
+                        <h2 class="text-base sm:text-lg font-bold text-slate-800">🧠 Reglas de Oro</h2>
+                    </div>
+                    <ul class="space-y-2 text-xs sm:text-sm text-slate-700">
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-check text-amber-600 mt-1 shrink-0 text-xs"></i>
+                            <span><strong>Conexión antes que corrección:</strong> Si el castigo siempre es quitar el dispositivo, no acudirán a vos ante situaciones graves (grooming, ciberacoso).</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-check text-amber-600 mt-1 shrink-0 text-xs"></i>
+                            <span><strong>El ejemplo es el sistema operativo:</strong> Los hijos aprenden más de nuestra relación con el teléfono que de nuestros discursos.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-check text-amber-600 mt-1 shrink-0 text-xs"></i>
+                            <span><strong>Enfocarse en la conducta:</strong> Aplica consecuencias preestablecidas sin atacar verbalmente a la persona.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-check text-amber-600 mt-1 shrink-0 text-xs"></i>
+                            <span><strong>Validación emocional:</strong> Entiende su frustración al apagar la pantalla: <em>"Entiendo tu molestia, pero tu tiempo de hoy terminó"</em>.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Section: Guía por Etapas -->
+            <div class="space-y-3 sm:space-y-4">
+                <div class="flex items-center space-x-2.5 text-slate-800">
+                    <i class="fa-solid fa-calendar-days text-indigoBrand-600 text-lg sm:text-xl"></i>
+                    <h2 class="text-lg sm:text-xl font-bold">🗓️ Guía por Etapas de Desarrollo</h2>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-500">
+                    Basada en recomendaciones pediátricas y de neurodesarrollo para calibrar expectativas por edad.
+                </p>
+
+                <!-- Responsive Table Wrapper -->
+                <div class="overflow-x-auto -mx-2 sm:mx-0 rounded-xl border border-slate-200 shadow-sm">
+                    <table class="w-full text-left text-xs sm:text-sm text-slate-600 min-w-[540px]">
+                        <thead class="bg-slate-100 text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider">
+                            <tr>
+                                <th class="p-3 sm:p-4 border-b border-slate-200">Etapa / Edad</th>
+                                <th class="p-3 sm:p-4 border-b border-slate-200">Tiempo Máximo Diario</th>
+                                <th class="p-3 sm:p-4 border-b border-slate-200">Zonas y Modos de Uso</th>
+                                <th class="p-3 sm:p-4 border-b border-slate-200">Prioridad y Enfoque Clave</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr class="hover:bg-slate-50/80 transition">
+                                <td class="p-3 sm:p-4 font-bold text-slate-900 whitespace-nowrap">0 a 2 años</td>
+                                <td class="p-3 sm:p-4 font-bold text-rose-600">0 pantallas <span class="block text-[10px] font-normal text-slate-500">(Salvo videollamadas)</span></td>
+                                <td class="p-3 sm:p-4">Cero dispositivos en su presencia o interacción.</td>
+                                <td class="p-3 sm:p-4">Prioridad al desarrollo sensorial, motor, táctil y vínculo afectivo directo.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50/80 transition">
+                                <td class="p-3 sm:p-4 font-bold text-slate-900 whitespace-nowrap">2 a 5 años</td>
+                                <td class="p-3 sm:p-4 font-bold text-amber-600">30 min a 1 hora <span class="block text-[10px] font-normal text-slate-500">(Máximo absoluto)</span></td>
+                                <td class="p-3 sm:p-4">Co-visionado activo (adulto acompaña y comenta).</td>
+                                <td class="p-3 sm:p-4">Contenidos pausados y educativos. <strong>Cero pantallas en comidas o antes de dormir.</strong></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50/80 transition">
+                                <td class="p-3 sm:p-4 font-bold text-slate-900 whitespace-nowrap">6 a 12 años</td>
+                                <td class="p-3 sm:p-4 font-bold text-indigoBrand-600">1 a 2 horas</td>
+                                <td class="p-3 sm:p-4">Zonas comunes. <strong>Sin dispositivos en dormitorios.</strong></td>
+                                <td class="p-3 sm:p-4">Desactivar <em>autoplay</em>. Fomentar la creación por sobre el consumo pasivo.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50/80 transition">
+                                <td class="p-3 sm:p-4 font-bold text-slate-900 whitespace-nowrap">12 a 18 años</td>
+                                <td class="p-3 sm:p-4 font-bold text-emerald-600">Uso negociado <span class="block text-[10px] font-normal text-slate-500">(Máx 2h recreativas)</span></td>
+                                <td class="p-3 sm:p-4">Autonomía progresiva con límites claros de descanso y privacidad.</td>
+                                <td class="p-3 sm:p-4">Pensamiento crítico, huella digital, prevención de riesgos y descanso nocturno.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Section: Las 3 C (Zonas y Momentos Sagrados) -->
+            <div class="bg-rose-50/60 rounded-2xl p-4 sm:p-6 border border-rose-200/80 space-y-3 sm:space-y-4">
+                <div class="flex items-center space-x-2.5 text-rose-700">
+                    <i class="fa-solid fa-hand-halo text-xl sm:text-2xl"></i>
+                    <h2 class="text-base sm:text-xl font-bold text-slate-900">🛑 Las "3 C": Zonas y Momentos Sagrados</h2>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-600">
+                    Espacios/momentos donde las pantallas están estrictamente prohibidas para <strong>TODAS LAS PERSONAS</strong> de la casa:
+                </p>
+
+                <div class="grid sm:grid-cols-3 gap-3 sm:gap-4">
+                    <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-rose-100 shadow-sm space-y-1.5">
+                        <div class="text-rose-600 font-bold text-xs sm:text-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-bed"></i>
+                            <span>1. Cama</span>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Ningún dispositivo duerme en dormitorios. La luz e interferencia alteran el sueño. Se cargan fuera desde la hora acordada.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-rose-100 shadow-sm space-y-1.5">
+                        <div class="text-rose-600 font-bold text-xs sm:text-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-utensils"></i>
+                            <span>2. Comidas</span>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            La mesa es para reunión y conversación. Todos los teléfonos van al <strong>"Estacionamiento / Parking Digital"</strong>.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-rose-100 shadow-sm space-y-1.5">
+                        <div class="text-rose-600 font-bold text-xs sm:text-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-comments"></i>
+                            <span>3. Conversaciones</span>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Cuando alguien habla, lo miramos a los ojos (<em>"Escuchame con los ojos"</em>). Si usamos el teléfono, pausamos y atendemos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Nuestro Acuerdo Familiar (Interactive Form) -->
+            <div class="border-t border-slate-200 pt-6 sm:pt-8 space-y-6 sm:space-y-8">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div class="flex items-center space-x-2.5 text-slate-900">
+                        <i class="fa-solid fa-file-pen text-indigoBrand-600 text-xl sm:text-2xl"></i>
+                        <h2 class="text-xl sm:text-2xl font-bold">📝 Nuestro Acuerdo Familiar</h2>
+                    </div>
+                    <span class="text-[11px] sm:text-xs font-semibold text-indigoBrand-600 bg-indigoBrand-50 px-3 py-1 rounded-full border border-indigoBrand-100 self-start sm:self-auto">
+                        Completen este apartado en familia
+                    </span>
+                </div>
+
+                <div class="space-y-5 sm:space-y-6">
+                    <!-- 1. Metas de Bienestar -->
+                    <div class="bg-slate-50/90 p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3">
+                        <h3 class="text-sm sm:text-base font-bold text-slate-800 flex items-center space-x-2">
+                            <i class="fa-solid fa-heart-pulse text-rose-500 text-sm"></i>
+                            <span>1. Nuestras Metas de Bienestar</span>
+                        </h3>
+                        <div class="space-y-2.5 text-xs sm:text-sm text-slate-700">
+                            <div>
+                                <label for="goalsInput" class="block text-xs font-medium text-slate-600 mb-1">Nos comprometemos a cuidar nuestro tiempo offline porque nos gusta hacer juntos actividades como:</label>
+                                <input id="goalsInput" type="text" placeholder="Ej: Salir en bici, juegos de mesa, cocinar juntos, pasear..." class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-indigoBrand-500 focus:outline-none shadow-sm transition">
+                            </div>
+                            <p class="text-[11px] sm:text-xs text-slate-500 italic">
+                                Entendemos que las pantallas sirven para aprender, crear y divertirnos, pero no deben quitarnos tiempo para: <strong>el sueño, deporte, estudio y la charla cara a cara</strong>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 2. Zonas de carga -->
+                    <div class="bg-slate-50/90 p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3">
+                        <h3 class="text-sm sm:text-base font-bold text-slate-800 flex items-center space-x-2">
+                            <i class="fa-solid fa-square-parking text-indigoBrand-600 text-sm"></i>
+                            <span>2. Zonas de Carga y "Parking Digital"</span>
+                        </h3>
+                        <div class="grid sm:grid-cols-2 gap-3 sm:gap-4 text-xs sm:text-sm">
+                            <div>
+                                <label for="parkingLocation" class="block text-xs font-medium text-slate-600 mb-1">Lugar del "Parking" de teléfonos (al llegar o comer):</label>
+                                <input id="parkingLocation" type="text" placeholder="Ej: Cesta de la entrada / Consola del comedor" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-indigoBrand-500 focus:outline-none shadow-sm transition">
+                            </div>
+                            <div>
+                                <label for="nightTime" class="block text-xs font-medium text-slate-600 mb-1">Hora límite nocturna y ubicación del cargador común:</label>
+                                <div class="flex space-x-2">
+                                    <input id="nightTime" type="time" value="21:00" class="bg-white border border-slate-300 rounded-lg px-2.5 py-2 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-indigoBrand-500 focus:outline-none shadow-sm shrink-0">
+                                    <input id="chargerLocation" type="text" placeholder="Ubicación (Ej: Pasillo / Cocina)" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-indigoBrand-500 focus:outline-none shadow-sm transition">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3 & 4. Compromisos -->
+                    <div class="grid md:grid-cols-2 gap-4 sm:gap-6">
+                        <!-- Compromisos Chicos -->
+                        <div class="bg-slate-50/90 p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3">
+                            <h3 class="text-sm sm:text-base font-bold text-slate-800 flex items-center space-x-2">
+                                <i class="fa-solid fa-child text-emerald-600 text-sm"></i>
+                                <span>3. Compromiso de los Chicos</span>
+                            </h3>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-start space-x-2.5 cursor-pointer py-0.5">
+                                    <input type="checkbox" checked class="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500 w-4 h-4 shrink-0">
+                                    <span>Usaré las pantallas en espacios comunes respetando los tiempos.</span>
+                                </label>
+                                <label class="flex items-start space-x-2.5 cursor-pointer py-0.5">
+                                    <input type="checkbox" checked class="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500 w-4 h-4 shrink-0">
+                                    <span>Avisaré a un adulto si veo algo extraño o un desconocido me habla sin temor a castigos.</span>
+                                </label>
+                                <label class="flex items-start space-x-2.5 cursor-pointer py-0.5">
+                                    <input type="checkbox" checked class="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500 w-4 h-4 shrink-0">
+                                    <span>Pediré permiso antes de descargar una nueva app o juego.</span>
+                                </label>
+                                <label class="flex items-start space-x-2.5 cursor-pointer py-0.5">
+                                    <input type="checkbox" checked class="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500 w-4 h-4 shrink-0">
+                                    <span>Trataré a los demás con el respeto con el que me gusta ser tratado (Netiqueta).</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Compromisos Adultos -->
+                        <div class="bg-slate-50/90 p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3">
+                            <h3 class="text-sm sm:text-base font-bold text-slate-800 flex items-center space-x-2">
+                                <i class="fa-solid fa-user-shield text-indigoBrand-600 text-sm"></i>
+                                <span>4. Compromiso de los Adultos</span>
+                            </h3>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-start space-x-2.5 cursor-pointer py-0.5">
+                                    <input type="checkbox" checked class="mt-0.5 rounded text-indigoBrand-600 focus:ring-indigoBrand-500 w-4 h-4 shrink-0">
+                                    <span>Lideraré con el ejemplo: no atenderé mails ni redes durante comidas o tiempo familiar.</span>
+                                </label>
+                                <label class="flex items-start space-x-2.5 cursor-pointer py-0.5">
+                                    <input type="checkbox" checked class="mt-0.5 rounded text-indigoBrand-600 focus:ring-indigoBrand-500 w-4 h-4 shrink-0">
+                                    <span>Si me contactan por un problema digital, mantendré la calma sin quitar el celular por impulso.</span>
+                                </label>
+                                <label class="flex items-start space-x-2.5 cursor-pointer py-0.5">
+                                    <input type="checkbox" checked class="mt-0.5 rounded text-indigoBrand-600 focus:ring-indigoBrand-500 w-4 h-4 shrink-0">
+                                    <span>Acompañaré sus intereses digitales (preguntándole qué juega o ve).</span>
+                                </label>
+                                <label class="flex items-start space-x-2.5 cursor-pointer py-0.5">
+                                    <input type="checkbox" checked class="mt-0.5 rounded text-indigoBrand-600 focus:ring-indigoBrand-500 w-4 h-4 shrink-0">
+                                    <span>Protegeré su privacidad no publicando sus fotos/datos (Sharenting) sin consentimiento.</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Consecuencias -->
+                    <div class="bg-amber-50/70 p-4 sm:p-5 rounded-xl border border-amber-200 space-y-3">
+                        <h3 class="text-sm sm:text-base font-bold text-slate-800 flex items-center space-x-2">
+                            <i class="fa-solid fa-scale-balanced text-amber-600 text-sm"></i>
+                            <span>5. Consecuencias acordadas ante el incumplimiento</span>
+                        </h3>
+                        <p class="text-[11px] sm:text-xs text-slate-600">
+                            Fijadas por consenso previo para aplicar con serenidad si alguien rompe una regla preestablecida.
+                        </p>
+                        <div class="grid sm:grid-cols-2 gap-3 sm:gap-4 text-xs sm:text-sm">
+                            <div>
+                                <label for="fault1" class="block text-xs font-medium text-slate-700 mb-1">Primera falta:</label>
+                                <input id="fault1" type="text" placeholder="Ej: Recordatorio sereno + 1 día sin pantallas recreativas" class="w-full bg-white border border-amber-200 rounded-lg px-3 py-2 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-amber-500 focus:outline-none shadow-sm transition">
+                            </div>
+                            <div>
+                                <label for="fault2" class="block text-xs font-medium text-slate-700 mb-1">Segunda falta:</label>
+                                <input id="fault2" type="text" placeholder="Ej: Revisión del acuerdo + suspensión temporal del dispositivo" class="w-full bg-white border border-amber-200 rounded-lg px-3 py-2 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-amber-500 focus:outline-none shadow-sm transition">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Firmas de compromiso -->
+            <div class="space-y-3 sm:space-y-4 pt-4 border-t border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2.5 text-slate-800">
+                        <i class="fa-solid fa-signature text-indigoBrand-600 text-lg sm:text-xl"></i>
+                        <h2 class="text-lg sm:text-xl font-bold">✒️ Firmas de Compromiso Comunitario</h2>
+                    </div>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-500">
+                    Al firmar, aceptamos que la tecnología debe estar al servicio de nuestra familia y no al revés. Revisable cada 3 a 6 meses.
+                </p>
+
+                <div class="overflow-x-auto -mx-2 sm:mx-0 rounded-xl border border-slate-200">
+                    <table class="w-full text-left text-xs sm:text-sm text-slate-600 min-w-[480px]">
+                        <thead class="bg-slate-100 text-[11px] sm:text-xs font-bold text-slate-700 uppercase">
+                            <tr>
+                                <th class="p-2.5 sm:p-3 border-b border-slate-200">Integrante de la Familia</th>
+                                <th class="p-2.5 sm:p-3 border-b border-slate-200">Firma / Dibujo / Nombre</th>
+                                <th class="p-2.5 sm:p-3 border-b border-slate-200 w-32 sm:w-36">Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr>
+                                <td class="p-2.5 sm:p-3 font-semibold text-slate-800">Adulto / Tutor 1</td>
+                                <td class="p-2.5 sm:p-3"><input type="text" placeholder="Firma o nombre..." class="w-full bg-slate-50 border border-slate-200 rounded px-2 py-1 text-xs sm:text-sm text-slate-800 focus:outline-none focus:bg-white"></td>
+                                <td class="p-2.5 sm:p-3"><input type="date" value="2026-10-21" class="w-full bg-slate-50 border border-slate-200 rounded px-1.5 py-1 text-xs text-slate-800"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-2.5 sm:p-3 font-semibold text-slate-800">Adulto / Tutor 2</td>
+                                <td class="p-2.5 sm:p-3"><input type="text" placeholder="Firma o nombre..." class="w-full bg-slate-50 border border-slate-200 rounded px-2 py-1 text-xs sm:text-sm text-slate-800 focus:outline-none focus:bg-white"></td>
+                                <td class="p-2.5 sm:p-3"><input type="date" value="2026-10-21" class="w-full bg-slate-50 border border-slate-200 rounded px-1.5 py-1 text-xs text-slate-800"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-2.5 sm:p-3 font-semibold text-slate-800">Hijo / Hija 1</td>
+                                <td class="p-2.5 sm:p-3"><input type="text" placeholder="Firma o nombre..." class="w-full bg-slate-50 border border-slate-200 rounded px-2 py-1 text-xs sm:text-sm text-slate-800 focus:outline-none focus:bg-white"></td>
+                                <td class="p-2.5 sm:p-3"><input type="date" value="2026-10-21" class="w-full bg-slate-50 border border-slate-200 rounded px-1.5 py-1 text-xs text-slate-800"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-2.5 sm:p-3 font-semibold text-slate-800">Hijo / Hija 2</td>
+                                <td class="p-2.5 sm:p-3"><input type="text" placeholder="Firma o nombre..." class="w-full bg-slate-50 border border-slate-200 rounded px-2 py-1 text-xs sm:text-sm text-slate-800 focus:outline-none focus:bg-white"></td>
+                                <td class="p-2.5 sm:p-3"><input type="date" value="2026-10-21" class="w-full bg-slate-50 border border-slate-200 rounded px-1.5 py-1 text-xs text-slate-800"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Section: Checklist Heladera -->
+            <div class="bg-indigoBrand-50/60 rounded-2xl p-4 sm:p-6 border border-indigoBrand-100 space-y-3 sm:space-y-4">
+                <div class="flex items-center space-x-2.5 text-indigoBrand-700">
+                    <i class="fa-solid fa-square-check text-xl sm:text-2xl"></i>
+                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">🛠️ Guía Rápida de Revisión Semanal</h2>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-600">
+                    Peguen esta hoja en la heladera y realicen un chequeo de 2 minutos cada domingo:
+                </p>
+
+                <div class="grid sm:grid-cols-2 gap-2.5 sm:gap-3 text-xs sm:text-sm">
+                    <label class="flex items-center space-x-3 bg-white p-3 rounded-xl border border-indigoBrand-100/80 cursor-pointer shadow-sm">
+                        <input type="checkbox" class="rounded text-indigoBrand-600 focus:ring-indigoBrand-500 w-4 h-4 shrink-0">
+                        <span class="text-slate-700">¿Cumplimos la regla del Parking de Desconexión en las comidas?</span>
+                    </label>
+                    <label class="flex items-center space-x-3 bg-white p-3 rounded-xl border border-indigoBrand-100/80 cursor-pointer shadow-sm">
+                        <input type="checkbox" class="rounded text-indigoBrand-600 focus:ring-indigoBrand-500 w-4 h-4 shrink-0">
+                        <span class="text-slate-700">¿Los dispositivos estuvieron cargándose fuera de las habitaciones de noche?</span>
+                    </label>
+                    <label class="flex items-center space-x-3 bg-white p-3 rounded-xl border border-indigoBrand-100/80 cursor-pointer shadow-sm">
+                        <input type="checkbox" class="rounded text-indigoBrand-600 focus:ring-indigoBrand-500 w-4 h-4 shrink-0">
+                        <span class="text-slate-700">¿Tuvimos al menos un momento/actividad 100% analógica este fin de semana?</span>
+                    </label>
+                    <label class="flex items-center space-x-3 bg-white p-3 rounded-xl border border-indigoBrand-100/80 cursor-pointer shadow-sm">
+                        <input type="checkbox" class="rounded text-indigoBrand-600 focus:ring-indigoBrand-500 w-4 h-4 shrink-0">
+                        <span class="text-slate-700">¿Hablamos sobre algún tema o duda digital juntos sin discutir?</span>
+                    </label>
+                </div>
+
+                <div class="text-center pt-2">
+                    <p class="text-[11px] sm:text-xs font-semibold text-indigoBrand-700 italic">
+                        💡 Recordatorio: Un plan exitoso no es el que se cumple de forma rígida al 100%, sino el que sirve de brújula para volver a conectar cuando nos desviamos.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- QR Share Modal -->
+    <div id="qrModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 transition-opacity">
+        <div class="bg-white rounded-2xl p-5 sm:p-8 max-w-sm w-full space-y-5 text-center shadow-2xl relative border border-slate-100">
+            <button onclick="closeQRModal()" aria-label="Cerrar ventana" class="absolute top-3.5 right-3.5 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="space-y-1.5">
+                <div class="w-11 h-11 bg-indigoBrand-50 text-indigoBrand-600 rounded-full flex items-center justify-center mx-auto text-lg">
+                    <i class="fa-solid fa-qrcode"></i>
+                </div>
+                <h3 class="text-base sm:text-lg font-bold text-slate-900">Escaneá para compartir</h3>
+                <p class="text-xs text-slate-500">
+                    Cualquier persona puede escanear este código QR para abrir y completar su propio Plan Familiar en su celular.
+                </p>
+            </div>
+
+            <!-- QR Container -->
+            <div class="flex justify-center p-3 bg-slate-50 rounded-xl border border-slate-200 min-h-[190px] items-center">
+                <div id="qrcode"></div>
+            </div>
+
+            <div class="flex space-x-2">
+                <input id="shareUrlInput" type="text" readonly class="w-full bg-slate-100 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-600 focus:outline-none truncate">
+                <button onclick="copyShareUrl(event)" class="bg-indigoBrand-600 hover:bg-indigoBrand-700 active:bg-indigoBrand-800 text-white font-semibold text-xs px-3.5 py-1.5 rounded-lg transition shrink-0">
+                    Copiar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer con Licencia Dual CC BY-SA 4.0 & MIT -->
+    <footer class="bg-slate-900 text-slate-400 py-8 mt-8 text-center text-xs no-print border-t border-slate-800">
+        <div class="max-w-5xl mx-auto px-4 space-y-3">
+            <p class="font-bold text-slate-200 text-sm">#UseTech4Good - Human Tech Movement</p>
+            <p class="text-slate-400">Diseñado para la promoción del bienestar digital en el hogar. Autoría: <span class="text-slate-300 font-semibold">@Jalito27</span></p>
+            
+            <div class="pt-2 border-t border-slate-800/80 max-w-xl mx-auto space-y-1 text-[11px] text-slate-400">
+                <p>
+                    Esta obra y su contenido están bajo una licencia 
+                    <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:underline inline-flex items-center space-x-1">
+                        <span>Creative Commons Atribución-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                    </a>.
+                </p>
+                <p>
+                    El código fuente del sitio está licenciado bajo la 
+                    <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:underline">
+                        Licencia MIT
+                    </a>.
+                </p>
+                <p class="text-slate-400 pt-1">
+                    Se permite libremente la copia, adaptación, traducción y redistribución comunitaria reconociendo la autoría original.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // PDF Export Functionality using html2pdf.js with Input Field Value Capture
+        function downloadPDF() {
+            // Synchronize input values into attributes for HTML2canvas capture
+            const inputs = document.querySelectorAll('#pdf-content input[type="text"], #pdf-content input[type="time"], #pdf-content input[type="date"]');
+            inputs.forEach(input => {
+                input.setAttribute('value', input.value);
+            });
+
+            const checkboxes = document.querySelectorAll('#pdf-content input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    cb.setAttribute('checked', 'checked');
+                } else {
+                    cb.removeAttribute('checked');
+                }
+            });
+
+            const element = document.getElementById('pdf-content');
+            
+            // PDF configuration options optimized for mobile / desktop
+            const opt = {
+                margin:       [0.3, 0.3, 0.3, 0.3],
+                filename:     'Plan_Familiar_Uso_de_Pantallas.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Trigger export
+            html2pdf().set(opt).from(element).save().catch(err => {
+                console.error("Error al generar PDF:", err);
+            });
+        }
+
+        // Dynamic QR Code Generation
+        let qrCodeInstance = null;
+
+        function openQRModal() {
+            const modal = document.getElementById('qrModal');
+            const shareUrl = window.location.href;
+            document.getElementById('shareUrlInput').value = shareUrl;
+
+            modal.classList.remove('hidden');
+
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = ''; // Clear previous
+
+            qrCodeInstance = new QRCode(qrContainer, {
+                text: shareUrl,
+                width: 170,
+                height: 170,
+                colorDark : "#1e293b",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        }
+
+        function closeQRModal() {
+            document.getElementById('qrModal').classList.add('hidden');
+        }
+
+        function copyShareUrl(event) {
+            const copyText = document.getElementById("shareUrlInput");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            
+            try {
+                document.execCommand("copy");
+            } catch (err) {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(copyText.value);
+                }
+            }
+
+            const btn = event.currentTarget;
+            const originalText = btn.innerText;
+            btn.innerText = "¡Copiado!";
+            btn.classList.replace('bg-indigoBrand-600', 'bg-emerald-600');
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.classList.replace('bg-emerald-600', 'bg-indigoBrand-600');
+            }, 2000);
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('qrModal');
+            if (event.target === modal) {
+                closeQRModal();
+            }
+        };
+    </script>
+</body>
+</html>
