@@ -1,4 +1,5 @@
-# Plan Familiar de Uso de Pantallas: "Desconectando el pánico, conectando la presencia"
+# Plan Familiar de Uso de Pantallas:
+"Desconectando el pánico, conectando la presencia"
 
 Un acuerdo consciente y participativo para mejorar la convivencia digital en nuestro hogar. @Jalito27
 
