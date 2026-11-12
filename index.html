@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Plan Familiar // #UseTech4Good</title>
+    <title>Plan Familiar de Uso de Pantallas // AAP & #UseTech4Good</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Space Grotesk (Editorial Brutalism) + Syne (Display) -->
+    <!-- Google Fonts: Space Grotesk + Syne -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
     
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -34,14 +34,12 @@
                         acidYellow: '#ccff00',
                         electricBlue: '#3b82f6',
                         hotPink: '#ff0055',
-                        brutalGray: '#1a1a1a',
-                        borderDark: '#121212',
+                        mintGreen: '#00f59b',
                     },
                     boxShadow: {
                         'hard': '4px 4px 0px 0px #0d0d0d',
                         'hard-lg': '8px 8px 0px 0px #0d0d0d',
                         'hard-sm': '2px 2px 0px 0px #0d0d0d',
-                        'hard-acid': '6px 6px 0px 0px #ccff00',
                     }
                 }
             }
@@ -56,7 +54,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Anti-AI Brutalist Details */
         .brutalist-card {
             background-color: #ffffff;
             border: 3px solid #0d0d0d;
@@ -64,17 +61,12 @@
             transition: all 0.15s cubic-bezier(0.2, 0, 0, 1);
         }
 
-        .brutalist-card:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 8px 8px 0px 0px #0d0d0d;
-        }
-
         .brutalist-btn {
             border: 3px solid #0d0d0d;
             box-shadow: 4px 4px 0px 0px #0d0d0d;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.04em;
             transition: all 0.1s ease-in-out;
         }
 
@@ -86,367 +78,315 @@
         .brutalist-input {
             border: 2px solid #0d0d0d;
             background: #ffffff;
-            font-size: 16px !important; /* Avoids iOS zoom */
+            font-size: 16px !important;
             font-weight: 600;
             color: #0d0d0d;
-            transition: border-color 0.15s ease;
         }
 
         .brutalist-input:focus {
             outline: none;
-            background: #f0fdf4;
-            border-color: #0d0d0d;
+            background: #fffbeb;
             box-shadow: 3px 3px 0px 0px #0d0d0d;
         }
 
-        /* Custom Interactive Matrix Toggles */
-        .stage-toggle input:checked + div {
-            background-color: #ccff00;
-            border-color: #0d0d0d;
-            color: #0d0d0d;
-            font-weight: 700;
-        }
-
-        /* Print Override */
         @media print {
             .no-print { display: none !important; }
             body { background: #ffffff !important; color: #000000 !important; }
-            .pdf-container { box-shadow: none !important; border: 2px solid #000 !important; padding: 1rem !important; }
-            .brutalist-card { box-shadow: none !important; border: 2px solid #000 !important; }
+            .pdf-container { box-shadow: none !important; border: none !important; padding: 0 !important; }
+            .brutalist-card { box-shadow: none !important; border: 2px solid #000 !important; break-inside: avoid; }
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-acidYellow selection:text-rawBlack">
 
-    <!-- Sticky Editorial Header -->
+    <!-- Sticky Tactical Top Bar -->
     <header class="bg-rawWhite border-b-4 border-rawBlack sticky top-0 z-40 no-print py-3 px-4 sm:px-8">
         <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
             <div class="flex items-center space-x-3">
-                <div class="bg-acidYellow border-2 border-rawBlack p-2 font-black text-xs sm:text-sm tracking-tighter uppercase shadow-hard-sm">
+                <div class="bg-rawBlack text-acidYellow border-2 border-rawBlack px-2.5 py-1 font-black text-xs sm:text-sm tracking-tighter uppercase shadow-hard-sm">
                     #UseTech4Good
                 </div>
-                <span class="font-display font-extrabold text-sm sm:text-lg tracking-tight hidden sm:inline uppercase">
-                    Pacto Familiar v2.6
+                <span class="font-display font-black text-sm sm:text-base tracking-tight hidden sm:inline uppercase">
+                    Plan Familiar // Basado en Human Tech Collective y AAP
                 </span>
             </div>
 
-            <div class="flex items-center space-x-2 sm:space-x-4">
+            <div class="flex items-center space-x-2 sm:space-x-3">
                 <button onclick="openQRModal()" class="brutalist-btn bg-white hover:bg-slate-100 text-rawBlack px-3 py-2 text-xs sm:text-sm flex items-center gap-2">
                     <i class="fa-solid fa-qrcode"></i>
-                    <span class="hidden md:inline">Compartir</span>
+                    <span class="hidden md:inline">Compartir QR</span>
                 </button>
                 <button onclick="downloadPDF()" class="brutalist-btn bg-acidYellow hover:bg-lime-300 text-rawBlack px-4 py-2 text-xs sm:text-sm flex items-center gap-2">
-                    <i class="fa-solid fa-arrow-down-long"></i>
-                    <span>Exportar PDF</span>
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>Descargar PDF</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Container -->
+    <!-- Main Container -->
     <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-12 flex-grow w-full">
-        <div id="pdf-content" class="pdf-container space-y-10 sm:space-y-14">
+        <div id="pdf-content" class="pdf-container space-y-10 sm:space-y-12">
 
-            <!-- HERO STATEMENT (Swiss Typography) -->
-            <section class="border-b-4 border-rawBlack pb-8 sm:pb-12">
+            <!-- HERO SECTION -->
+            <section class="border-b-4 border-rawBlack pb-8">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-                    <div class="space-y-2 max-w-3xl">
-                        <span class="inline-block bg-rawBlack text-rawWhite px-3 py-1 font-bold text-xs uppercase tracking-widest">
-                            Guía Operativa de Convivencia Digital
-                        </span>
-                        <h1 class="font-display text-4xl sm:text-6xl md:text-7xl font-black uppercase leading-none tracking-tight">
-                            Menos Ruido.<br/>
-                            <span class="text-electricBlue">Más Presencia.</span>
+                    <div class="space-y-3 max-w-4xl">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-electricBlue text-white font-mono px-2.5 py-0.5 font-bold text-xs uppercase border border-rawBlack">
+                                Criterios AAP (HealthyChildren)
+                            </span>
+                            <span class="bg-mintGreen text-rawBlack font-mono px-2.5 py-0.5 font-bold text-xs uppercase border border-rawBlack">
+                                Enfoque Human Tech
+                            </span>
+                        </div>
+                        <h1 class="font-display text-4xl sm:text-6xl md:text-7xl font-black uppercase leading-none tracking-tighter">
+                            PLAN FAMILIAR DE <span class="bg-acidYellow px-2 border-2 border-rawBlack inline-block transform -rotate-1">PANTALLAS</span>.
                         </h1>
-                    </div>
-                    <div class="text-right space-y-1 self-start md:self-end">
-                        <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Autoría // Redacción</p>
-                        <p class="font-mono font-bold text-sm sm:text-base border-2 border-rawBlack bg-white px-3 py-1 inline-block shadow-hard-sm">
-                            @Jalito27
+                        <p class="font-display text-xl sm:text-2xl font-extrabold uppercase text-slate-800 tracking-tight">
+                            Menos ruido algorítmico. Más presencia real.
                         </p>
                     </div>
+                    <div class="text-left md:text-right space-y-1 shrink-0">
+                        <p class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-600">Familia:</p>
+                        <input id="familyNameHeader" type="text" placeholder="Ej: Familia González" class="brutalist-input px-3 py-1.5 text-sm w-56">
+                    </div>
                 </div>
-                <p class="mt-6 text-base sm:text-xl font-medium text-slate-800 leading-snug max-w-4xl">
-                    Las pantallas no son neutrales. Tienen ejércitos de ingenieros diseñando dopamina. Este documento es el cortafuegos de tu hogar.
+                <p class="mt-6 text-sm sm:text-lg font-medium text-slate-900 leading-snug max-w-3xl border-l-4 border-rawBlack pl-4">
+                    Cada hogar es distinto. Inspirado en la <strong>filosofía HumanTech</strong> y el marco clínico de la <strong>Academia Americana de Pediatría (AAP)</strong>, este pacto no busca prohibir a ciegas, sino evitar que las pantallas desplacen el juego libre, el encuentro cara a cara y el sueño.
                 </p>
             </section>
 
-            <!-- BENTO GRID SECTION: MANIFESTO & GOLDEN RULES -->
-            <section class="grid grid-cols-1 md:grid-cols-12 gap-6">
-                <!-- Bento 1: Axiomas Brutales (7 cols) -->
-                <div class="md:col-span-7 brutalist-card p-6 sm:p-8 space-y-6">
-                    <div class="flex items-center justify-between border-b-2 border-rawBlack pb-3">
-                        <h2 class="font-display font-extrabold text-xl uppercase tracking-tight">01 // Axiomas Directos</h2>
-                        <span class="bg-hotPink text-white font-mono text-xs px-2 py-0.5 uppercase font-bold">Sin Filtro</span>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        <div class="border-l-4 border-rawBlack pl-4 py-1">
-                            <h3 class="font-bold text-base uppercase">1. El ejemplo es la única regla</h3>
-                            <p class="text-xs sm:text-sm text-slate-700">Tus hijos ven cómo usás el teléfono. Si cortás la cena para responder notificaciones, perdiste la discusión.</p>
-                        </div>
-
-                        <div class="border-l-4 border-rawBlack pl-4 py-1">
-                            <h3 class="font-bold text-base uppercase">2. Vínculo > Sanción impulsiva</h3>
-                            <p class="text-xs sm:text-sm text-slate-700">Si tu única respuesta a un problema es quitar la pantalla, jamás te van a pedir ayuda cuando sufran acoso o grooming.</p>
-                        </div>
-
-                        <div class="border-l-4 border-rawBlack pl-4 py-1">
-                            <h3 class="font-bold text-base uppercase">3. Atacá la regla, no a la persona</h3>
-                            <p class="text-xs sm:text-sm text-slate-700">Sé constante con las consecuencias fijadas. Sin agresiones ni discursos dramáticos.</p>
-                        </div>
-                    </div>
+            <!-- BENTO GRID 1: LAS "5 C" DE LA AAP -->
+            <section class="space-y-4">
+                <div class="flex items-center justify-between border-b-2 border-rawBlack pb-2">
+                    <h2 class="font-display font-black text-xl sm:text-2xl uppercase tracking-tight">01 // Las 5 Claves antes de acordar</h2>
+                    <span class="font-mono text-xs font-bold bg-rawBlack text-white px-2 py-0.5 uppercase">Brújula Human Tech</span>
                 </div>
 
-                <!-- Bento 2: Zonas Cero (5 cols) -->
-                <div class="md:col-span-5 brutalist-card bg-acidYellow p-6 sm:p-8 space-y-6">
-                    <div class="flex items-center justify-between border-b-2 border-rawBlack pb-3">
-                        <h2 class="font-display font-extrabold text-xl uppercase tracking-tight">02 // Zonas Cero</h2>
-                        <i class="fa-solid fa-ban text-lg"></i>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <div class="brutalist-card p-4 bg-white space-y-2">
+                        <span class="bg-acidYellow border border-rawBlack px-2 py-0.5 font-mono text-xs font-black">1. CHICO/A</span>
+                        <h3 class="font-display font-bold text-base uppercase">Mirar a la persona</h3>
+                        <p class="text-xs text-slate-700 leading-relaxed">Cada hijo tiene su madurez y sensibilidad. Lo que funciona para uno puede sobreestimular a otro.</p>
                     </div>
 
-                    <p class="text-xs font-bold uppercase tracking-wider">Territorios Innegociables sin Pantallas:</p>
+                    <div class="brutalist-card p-4 bg-white space-y-2">
+                        <span class="bg-mintGreen border border-rawBlack px-2 py-0.5 font-mono text-xs font-black">2. CONTENIDO</span>
+                        <h3 class="font-display font-bold text-base uppercase">Calidad sobre cantidad</h3>
+                        <p class="text-xs text-slate-700 leading-relaxed">Priorizar historias con narrativa y creatividad sobre videos cortos infinitos llenos de publicidad.</p>
+                    </div>
 
-                    <div class="space-y-3 font-mono text-xs sm:text-sm font-bold">
-                        <div class="bg-white border-2 border-rawBlack p-3 flex items-center justify-between shadow-hard-sm">
-                            <span>[01] DORMITORIOS NOCTURNOS</span>
-                            <i class="fa-solid fa-bed"></i>
-                        </div>
-                        <div class="bg-white border-2 border-rawBlack p-3 flex items-center justify-between shadow-hard-sm">
-                            <span>[02] MESA & COMIDAS</span>
-                            <i class="fa-solid fa-utensils"></i>
-                        </div>
-                        <div class="bg-white border-2 border-rawBlack p-3 flex items-center justify-between shadow-hard-sm">
-                            <span>[03] CHARLAS OJO A OJO</span>
-                            <i class="fa-solid fa-comments"></i>
-                        </div>
+                    <div class="brutalist-card p-4 bg-white space-y-2">
+                        <span class="bg-electricBlue text-white border border-rawBlack px-2 py-0.5 font-mono text-xs font-black">3. CALMA</span>
+                        <h3 class="font-display font-bold text-base uppercase">No usar de chupete</h3>
+                        <p class="text-xs text-slate-700 leading-relaxed">Evitar calmar rabietas o el aburrimiento entregando siempre una pantalla. Enseñar a regular emociones.</p>
+                    </div>
+
+                    <div class="brutalist-card p-4 bg-white space-y-2">
+                        <span class="bg-hotPink text-white border border-rawBlack px-2 py-0.5 font-mono text-xs font-black">4. DESPLAZAMIENTO</span>
+                        <h3 class="font-display font-bold text-base uppercase">Proteger lo vital</h3>
+                        <p class="text-xs text-slate-700 leading-relaxed">Que el tiempo conectado nunca robe horas de sueño, movimiento físico, lectura o charla familiar.</p>
+                    </div>
+
+                    <div class="brutalist-card p-4 bg-white space-y-2 sm:col-span-2 lg:col-span-1">
+                        <span class="bg-rawBlack text-acidYellow border border-rawBlack px-2 py-0.5 font-mono text-xs font-black">5. COMUNICACIÓN</span>
+                        <h3 class="font-display font-bold text-base uppercase">Diálogo sin sermón</h3>
+                        <p class="text-xs text-slate-700 leading-relaxed">Hablar seguido sobre qué miran, qué les divierte y cómo cuidarse en línea sin miedo al castigo.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- BENTO GRID: DEVELOPMENT MATRIX (AS YMMETRIC LIST) -->
-            <section class="brutalist-card p-6 sm:p-8 space-y-6">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b-2 border-rawBlack pb-4">
-                    <h2 class="font-display font-extrabold text-xl sm:text-2xl uppercase tracking-tight">03 // Matriz de Desarrollo por Edades</h2>
-                    <span class="text-xs font-mono font-bold uppercase bg-slate-100 border border-rawBlack px-2 py-1">Consenso Neuropediátrico</span>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <!-- Stage 1 -->
-                    <div class="border-2 border-rawBlack p-4 bg-slate-50 space-y-3 flex flex-col justify-between">
-                        <div>
-                            <div class="bg-hotPink text-white font-mono text-xs font-bold px-2 py-1 inline-block uppercase mb-2">0 a 2 AÑOS</div>
-                            <h3 class="font-bold text-lg leading-tight uppercase">CERO PANTALLAS</h3>
-                            <p class="text-xs text-slate-600 mt-2">Solo videollamadas con familiares. El cerebro requiere interacción táctil y física real.</p>
-                        </div>
-                        <div class="text-[10px] font-mono font-bold uppercase border-t border-slate-300 pt-2 text-slate-500">Límite: 0 min/día</div>
-                    </div>
-
-                    <!-- Stage 2 -->
-                    <div class="border-2 border-rawBlack p-4 bg-slate-50 space-y-3 flex flex-col justify-between">
-                        <div>
-                            <div class="bg-electricBlue text-white font-mono text-xs font-bold px-2 py-1 inline-block uppercase mb-2">2 a 5 AÑOS</div>
-                            <h3 class="font-bold text-lg leading-tight uppercase">MAX 30-60 MIN</h3>
-                            <p class="text-xs text-slate-600 mt-2">Co-visionado con un adulto. Sin pantallas antes de dormir ni en las comidas.</p>
-                        </div>
-                        <div class="text-[10px] font-mono font-bold uppercase border-t border-slate-300 pt-2 text-slate-500">Límite: 1 hora diaria</div>
-                    </div>
-
-                    <!-- Stage 3 -->
-                    <div class="border-2 border-rawBlack p-4 bg-slate-50 space-y-3 flex flex-col justify-between">
-                        <div>
-                            <div class="bg-acidYellow text-rawBlack font-mono text-xs font-bold px-2 py-1 border border-rawBlack inline-block uppercase mb-2">6 a 12 AÑOS</div>
-                            <h3 class="font-bold text-lg leading-tight uppercase">1 A 2 HORAS</h3>
-                            <p class="text-xs text-slate-600 mt-2">Uso exclusivo en áreas comunes. Autoplay desactivado. Prioridad a la creación.</p>
-                        </div>
-                        <div class="text-[10px] font-mono font-bold uppercase border-t border-slate-300 pt-2 text-slate-500">Límite: 2 horas diarias</div>
-                    </div>
-
-                    <!-- Stage 4 -->
-                    <div class="border-2 border-rawBlack p-4 bg-slate-50 space-y-3 flex flex-col justify-between">
-                        <div>
-                            <div class="bg-rawBlack text-rawWhite font-mono text-xs font-bold px-2 py-1 inline-block uppercase mb-2">12 a 18 AÑOS</div>
-                            <h3 class="font-bold text-lg leading-tight uppercase">NEGOCIACIÓN</h3>
-                            <p class="text-xs text-slate-600 mt-2">Autonomía con límites nocturnos. Enfoque en huella digital, privacidad y pensamiento crítico.</p>
-                        </div>
-                        <div class="text-[10px] font-mono font-bold uppercase border-t border-slate-300 pt-2 text-slate-500">Límite: Pactado</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- INTERACTIVE FORM AGREEMENT SECTION -->
-            <section class="brutalist-card p-6 sm:p-10 space-y-8 bg-white">
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b-4 border-rawBlack pb-4 gap-2">
-                    <div>
-                        <span class="bg-electricBlue text-white font-mono text-xs font-bold px-2 py-0.5 uppercase">Documento Activo</span>
-                        <h2 class="font-display font-extrabold text-2xl sm:text-3xl uppercase tracking-tight">04 // Acuerdos de Hogar</h2>
-                    </div>
-                    <span class="text-xs font-mono font-bold border-2 border-rawBlack bg-acidYellow px-3 py-1">
-                        Completen esta sección en conjunto
-                    </span>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Field 1 -->
-                    <div class="space-y-2">
-                        <label for="goalsInput" class="block font-bold text-xs uppercase tracking-wider text-slate-800">
-                            1. Metas Offline (¿Qué nos gusta hacer juntos sin pantallas?):
-                        </label>
-                        <input id="goalsInput" type="text" placeholder="Ej: Bici, juegos de mesa, cocinar, parque..." class="brutalist-input w-full p-3 text-sm">
-                    </div>
-
-                    <!-- Field 2 -->
-                    <div class="space-y-2">
-                        <label for="parkingLocation" class="block font-bold text-xs uppercase tracking-wider text-slate-800">
-                            2. Ubicación del "Parking Digital" (Comidas / Llegada):
-                        </label>
-                        <input id="parkingLocation" type="text" placeholder="Ej: Cesta del pasillo / Mueble del comedor" class="brutalist-input w-full p-3 text-sm">
-                    </div>
-
-                    <!-- Field 3 -->
-                    <div class="space-y-2">
-                        <label for="nightTime" class="block font-bold text-xs uppercase tracking-wider text-slate-800">
-                            3. Hora Límite Nocturna de Carga:
-                        </label>
-                        <input id="nightTime" type="time" value="21:00" class="brutalist-input w-full p-3 text-sm">
-                    </div>
-
-                    <!-- Field 4 -->
-                    <div class="space-y-2">
-                        <label for="chargerLocation" class="block font-bold text-xs uppercase tracking-wider text-slate-800">
-                            4. Estación de Carga Nocturna Común:
-                        </label>
-                        <input id="chargerLocation" type="text" placeholder="Ej: Pasillo / Cocina (Fuera de habitaciones)" class="brutalist-input w-full p-3 text-sm">
-                    </div>
-                </div>
-
-                <!-- Checkboxes: Dual Commitments -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t-2 border-rawBlack">
-                    <!-- Kids Commitments -->
-                    <div class="space-y-3 bg-slate-50 p-5 border-2 border-rawBlack">
-                        <h3 class="font-display font-extrabold text-base uppercase text-rawBlack flex items-center gap-2">
-                            <i class="fa-solid fa-child"></i> Compromiso de los Chicos
-                        </h3>
-                        <div class="space-y-2 text-xs font-medium">
-                            <label class="flex items-start gap-2.5 cursor-pointer">
-                                <input type="checkbox" checked class="mt-0.5 accent-rawBlack w-4 h-4">
-                                <span>Usar pantallas en áreas comunes dentro de los horarios.</span>
-                            </label>
-                            <label class="flex items-start gap-2.5 cursor-pointer">
-                                <input type="checkbox" checked class="mt-0.5 accent-rawBlack w-4 h-4">
-                                <span>Avisar a un adulto si algo me asusta sin miedo a sanciones.</span>
-                            </label>
-                            <label class="flex items-start gap-2.5 cursor-pointer">
-                                <input type="checkbox" checked class="mt-0.5 accent-rawBlack w-4 h-4">
-                                <span>Pedir permiso previo para instalar juegos o aplicaciones.</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Adults Commitments -->
-                    <div class="space-y-3 bg-slate-50 p-5 border-2 border-rawBlack">
-                        <h3 class="font-display font-extrabold text-base uppercase text-rawBlack flex items-center gap-2">
-                            <i class="fa-solid fa-user-shield"></i> Compromiso de los Adultos
-                        </h3>
-                        <div class="space-y-2 text-xs font-medium">
-                            <label class="flex items-start gap-2.5 cursor-pointer">
-                                <input type="checkbox" checked class="mt-0.5 accent-rawBlack w-4 h-4">
-                                <span>Liderar con el ejemplo: sin mails ni notificaciones en la mesa.</span>
-                            </label>
-                            <label class="flex items-start gap-2.5 cursor-pointer">
-                                <input type="checkbox" checked class="mt-0.5 accent-rawBlack w-4 h-4">
-                                <span>Reaccionar con serenidad ante dudas o errores digitales.</span>
-                            </label>
-                            <label class="flex items-start gap-2.5 cursor-pointer">
-                                <input type="checkbox" checked class="mt-0.5 accent-rawBlack w-4 h-4">
-                                <span>Respetar su privacidad sin exponer fotos (Sharenting).</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Fault Consequences Inputs -->
-                <div class="space-y-4 pt-4 border-t-2 border-rawBlack">
-                    <h3 class="font-display font-bold text-sm uppercase tracking-wider">5. Consecuencias Preestablecidas (Por Consenso):</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="fault1" class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Primera falta:</label>
-                            <input id="fault1" type="text" placeholder="Ej: Recordatorio sereno + 1 día sin pantallas recreativas" class="brutalist-input w-full p-2.5 text-xs">
-                        </div>
-                        <div>
-                            <label for="fault2" class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Segunda falta:</label>
-                            <input id="fault2" type="text" placeholder="Ej: Revisión conjunta del pacto + pausa del dispositivo" class="brutalist-input w-full p-2.5 text-xs">
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- INTERACTIVE SIGNATURE GRID -->
-            <section class="brutalist-card p-6 sm:p-8 space-y-6">
-                <div class="border-b-2 border-rawBlack pb-3">
-                    <h2 class="font-display font-extrabold text-xl uppercase tracking-tight">05 // Firmas de Compromiso</h2>
-                    <p class="text-xs text-slate-600 font-medium mt-1">Este pacto se revisa en familia cada 3 a 6 meses.</p>
+            <!-- BENTO GRID 2: GUÍA POR EDADES (AAP) -->
+            <section class="brutalist-card p-5 sm:p-8 bg-white space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b-3 border-rawBlack pb-3 gap-2">
+                    <h2 class="font-display font-black text-xl sm:text-2xl uppercase tracking-tight">02 // Criterios por Etapa de Desarrollo (AAP)</h2>
+                    <span class="text-xs font-mono font-bold bg-acidYellow border border-rawBlack px-2.5 py-1 self-start">Referencia Pediátrica</span>
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs font-mono min-w-[500px]">
+                    <table class="w-full text-left border-collapse border-2 border-rawBlack text-xs sm:text-sm">
                         <thead>
-                            <tr class="border-b-2 border-rawBlack bg-slate-100">
-                                <th class="p-3 uppercase font-bold">Integrante</th>
-                                <th class="p-3 uppercase font-bold">Nombre / Firma</th>
-                                <th class="p-3 uppercase font-bold">Fecha</th>
+                            <tr class="bg-rawBlack text-rawWhite font-display uppercase">
+                                <th class="p-3 border-2 border-rawBlack">Etapa</th>
+                                <th class="p-3 border-2 border-rawBlack">Pauta de Tiempo y Uso</th>
+                                <th class="p-3 border-2 border-rawBlack">Foco Human Tech</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y-2 divide-rawBlack">
+                        <tbody class="divide-y-2 divide-rawBlack font-medium">
                             <tr>
-                                <td class="p-3 font-bold">Adulto / Tutor 1</td>
-                                <td class="p-2"><input type="text" placeholder="Nombre..." class="brutalist-input w-full p-1.5 text-xs"></td>
-                                <td class="p-2"><input type="date" value="2026-10-28" class="brutalist-input w-full p-1.5 text-xs"></td>
+                                <td class="p-3 border-2 border-rawBlack font-bold bg-slate-50 whitespace-nowrap">0 a 18/24 meses</td>
+                                <td class="p-3 border-2 border-rawBlack"><strong>Evitar pantallas</strong> (excepto videollamadas con familiares). De 18 a 24m: solo programación de alta calidad acompañada.</td>
+                                <td class="p-3 border-2 border-rawBlack">Exploración sensorial, juego libre y contacto visual directo.</td>
                             </tr>
                             <tr>
-                                <td class="p-3 font-bold">Adulto / Tutor 2</td>
-                                <td class="p-2"><input type="text" placeholder="Nombre..." class="brutalist-input w-full p-1.5 text-xs"></td>
-                                <td class="p-2"><input type="date" value="2026-10-28" class="brutalist-input w-full p-1.5 text-xs"></td>
+                                <td class="p-3 border-2 border-rawBlack font-bold bg-slate-50 whitespace-nowrap">2 a 5 años</td>
+                                <td class="p-3 border-2 border-rawBlack"><strong>Máximo 1 hora diaria</strong> de contenido educativo y pausado.</td>
+                                <td class="p-3 border-2 border-rawBlack"><strong>Co-visionado activo:</strong> mirar juntos y conectar lo visto con el mundo real.</td>
                             </tr>
                             <tr>
-                                <td class="p-3 font-bold">Hijo / Hija 1</td>
-                                <td class="p-2"><input type="text" placeholder="Nombre..." class="brutalist-input w-full p-1.5 text-xs"></td>
-                                <td class="p-2"><input type="date" value="2026-10-28" class="brutalist-input w-full p-1.5 text-xs"></td>
+                                <td class="p-3 border-2 border-rawBlack font-bold bg-slate-50 whitespace-nowrap">6 a 12 años</td>
+                                <td class="p-3 border-2 border-rawBlack">Límites consistentes que no afecten sueño ni actividad física. Dispositivos en <strong>zonas comunes</strong>.</td>
+                                <td class="p-3 border-2 border-rawBlack">Desactivar <em>autoplay</em>. Priorizar creación sobre consumo pasivo.</td>
                             </tr>
                             <tr>
-                                <td class="p-3 font-bold">Hijo / Hija 2</td>
-                                <td class="p-2"><input type="text" placeholder="Nombre..." class="brutalist-input w-full p-1.5 text-xs"></td>
-                                <td class="p-2"><input type="date" value="2026-10-28" class="brutalist-input w-full p-1.5 text-xs"></td>
+                                <td class="p-3 border-2 border-rawBlack font-bold bg-slate-50 whitespace-nowrap">13 a 18 años</td>
+                                <td class="p-3 border-2 border-rawBlack">Negociación consciente. Retrasar redes sociales lo máximo posible y acompañar el ingreso.</td>
+                                <td class="p-3 border-2 border-rawBlack">Pensamiento crítico frente a algoritmos, huella digital y descanso nocturno.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- WEEKLY CHECKLIST -->
-            <section class="brutalist-card bg-acidYellow p-6 sm:p-8 space-y-4">
-                <div class="flex items-center justify-between border-b-2 border-rawBlack pb-3">
-                    <h2 class="font-display font-extrabold text-lg sm:text-xl uppercase tracking-tight">06 // Chequeo Dominical de Heladera (2 Mins)</h2>
-                    <i class="fa-solid fa-square-check text-xl"></i>
+            <!-- BENTO GRID 3: ACUERDOS INTERACTIVOS (ESTRUCTURA AAP HEALTHYCHILDREN) -->
+            <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- Columna Izquierda: Zonas y Tiempos Libres de Pantallas (7 cols) -->
+                <div class="lg:col-span-7 brutalist-card p-6 sm:p-8 bg-acidYellow space-y-6">
+                    <div class="border-b-3 border-rawBlack pb-3">
+                        <span class="bg-rawBlack text-white font-mono text-[10px] font-bold px-2 py-0.5 uppercase">Acuerdo 01 // Screen-Free Zones</span>
+                        <h2 class="font-display font-black text-xl sm:text-2xl uppercase tracking-tight mt-1">03 // Zonas y Momentos Libres de Pantallas</h2>
+                        <p class="text-xs font-bold text-slate-900 mt-1">Marquen los compromisos que regirán para TODOS en casa (adultos incluidos):</p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <label class="bg-white border-2 border-rawBlack p-3.5 flex items-start gap-3 cursor-pointer shadow-hard-sm">
+                            <input type="checkbox" checked class="accent-rawBlack w-5 h-5 shrink-0 mt-0.5">
+                            <span class="text-xs sm:text-sm font-bold"><strong>Mesa sin pantallas:</strong> Desayuno, almuerzo y cena son espacios exclusivos para charlar y comer sin dispositivos a la vista.</span>
+                        </label>
+
+                        <label class="bg-white border-2 border-rawBlack p-3.5 flex items-start gap-3 cursor-pointer shadow-hard-sm">
+                            <input type="checkbox" checked class="accent-rawBlack w-5 h-5 shrink-0 mt-0.5">
+                            <span class="text-xs sm:text-sm font-bold"><strong>Dormitorios libres de pantallas de noche:</strong> Ningún teléfono o tablet duerme en la habitación.</span>
+                        </label>
+
+                        <label class="bg-white border-2 border-rawBlack p-3.5 flex items-start gap-3 cursor-pointer shadow-hard-sm">
+                            <input type="checkbox" checked class="accent-rawBlack w-5 h-5 shrink-0 mt-0.5">
+                            <span class="text-xs sm:text-sm font-bold"><strong>Apagado 1 hora antes de dormir:</strong> Cortamos el estímulo lumínico y algorítmico para proteger el sueño reparador.</span>
+                        </label>
+
+                        <label class="bg-white border-2 border-rawBlack p-3.5 flex items-start gap-3 cursor-pointer shadow-hard-sm">
+                            <input type="checkbox" class="accent-rawBlack w-5 h-5 shrink-0 mt-0.5">
+                            <span class="text-xs sm:text-sm font-bold"><strong>Trayectos cortos en auto sin pantallas:</strong> Aprovechamos los viajes para conversar, escuchar música o mirar por la ventana.</span>
+                        </label>
+
+                        <label class="bg-white border-2 border-rawBlack p-3.5 flex items-start gap-3 cursor-pointer shadow-hard-sm">
+                            <input type="checkbox" class="accent-rawBlack w-5 h-5 shrink-0 mt-0.5">
+                            <span class="text-xs sm:text-sm font-bold"><strong>Regla de "Una sola pantalla a la vez":</strong> Apagamos el televisor de fondo si nadie lo está mirando activamente.</span>
+                        </label>
+                    </div>
+
+                    <!-- Parking Digital Box -->
+                    <div class="bg-white border-3 border-rawBlack p-4 space-y-3 shadow-hard">
+                        <h3 class="font-display font-black text-sm uppercase flex items-center gap-2">
+                            <i class="fa-solid fa-charging-station text-hotPink"></i> Nuestro "Parking Digital" Nocturno
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] font-bold uppercase text-slate-700 mb-1">Lugar común de carga:</label>
+                                <input type="text" placeholder="Ej: Estante de la cocina / Living" class="brutalist-input w-full p-2 text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold uppercase text-slate-700 mb-1">Hora límite de guardado:</label>
+                                <input type="text" placeholder="Ej: 21:00 hs (días de clase)" class="brutalist-input w-full p-2 text-xs">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs font-bold">
-                    <label class="bg-white border-2 border-rawBlack p-3 flex items-center gap-3 cursor-pointer shadow-sm">
-                        <input type="checkbox" class="accent-rawBlack w-4 h-4 shrink-0">
-                        <span>¿Parking digital cumplido en comidas?</span>
-                    </label>
-                    <label class="bg-white border-2 border-rawBlack p-3 flex items-center gap-3 cursor-pointer shadow-sm">
-                        <input type="checkbox" class="accent-rawBlack w-4 h-4 shrink-0">
-                        <span>¿Carga nocturna fuera de dormitorios?</span>
-                    </label>
-                    <label class="bg-white border-2 border-rawBlack p-3 flex items-center gap-3 cursor-pointer shadow-sm">
-                        <input type="checkbox" class="accent-rawBlack w-4 h-4 shrink-0">
-                        <span>¿Al menos un momento 100% analógico?</span>
-                    </label>
-                    <label class="bg-white border-2 border-rawBlack p-3 flex items-center gap-3 cursor-pointer shadow-sm">
-                        <input type="checkbox" class="accent-rawBlack w-4 h-4 shrink-0">
-                        <span>¿Charlamos sobre el mundo digital en paz?</span>
-                    </label>
+                <!-- Columna Derecha: Seguridad, Bondad Digital y Equilibrio (5 cols) -->
+                <div class="lg:col-span-5 brutalist-card p-6 sm:p-8 bg-white space-y-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="border-b-3 border-rawBlack pb-3">
+                            <span class="bg-electricBlue text-white font-mono text-[10px] font-bold px-2 py-0.5 uppercase">Acuerdo 02 // Ciudadanía & Equilibrio</span>
+                            <h2 class="font-display font-black text-xl uppercase tracking-tight mt-1">04 // Seguridad y Hábitos Sanos</h2>
+                        </div>
+
+                        <div class="space-y-2.5">
+                            <label class="bg-slate-50 border-2 border-rawBlack p-3 flex items-start gap-2.5 cursor-pointer">
+                                <input type="checkbox" checked class="accent-electricBlue w-4 h-4 shrink-0 mt-0.5">
+                                <span class="text-xs font-bold"><strong>Prioridades primero:</strong> Antes del ocio digital completamos tareas escolares, descanso y movimiento físico.</span>
+                            </label>
+
+                            <label class="bg-slate-50 border-2 border-rawBlack p-3 flex items-start gap-2.5 cursor-pointer">
+                                <input type="checkbox" checked class="accent-electricBlue w-4 h-4 shrink-0 mt-0.5">
+                                <span class="text-xs font-bold"><strong>Privacidad máxima:</strong> Revisamos juntos la configuración de privacidad y no compartimos datos personales ni ubicación.</span>
+                            </label>
+
+                            <label class="bg-slate-50 border-2 border-rawBlack p-3 flex items-start gap-2.5 cursor-pointer">
+                                <input type="checkbox" checked class="accent-electricBlue w-4 h-4 shrink-0 mt-0.5">
+                                <span class="text-xs font-bold"><strong>Respeto y empatía:</strong> Tratamos a los demás en línea con la misma amabilidad que cara a cara.</span>
+                            </label>
+
+                            <label class="bg-slate-50 border-2 border-rawBlack p-3 flex items-start gap-2.5 cursor-pointer">
+                                <input type="checkbox" checked class="accent-electricBlue w-4 h-4 shrink-0 mt-0.5">
+                                <span class="text-xs font-bold"><strong>Puerta abierta sin miedo:</strong> Si aparece algo incómodo o alguien extraño escribe, avisamos a un adulto sin temor a que nos quiten el dispositivo.</span>
+                            </label>
+
+                            <label class="bg-slate-50 border-2 border-rawBlack p-3 flex items-start gap-2.5 cursor-pointer">
+                                <input type="checkbox" checked class="accent-electricBlue w-4 h-4 shrink-0 mt-0.5">
+                                <span class="text-xs font-bold"><strong>Cero Sharenting sin permiso:</strong> Los adultos pedimos consentimiento antes de publicar fotos de los chicos en redes.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Alternativas Offline -->
+                    <div class="bg-mintGreen/30 border-2 border-rawBlack p-4 space-y-2">
+                        <label class="block text-xs font-black uppercase text-rawBlack">
+                            🎲 Nuestras actividades favoritas SIN pantallas:
+                        </label>
+                        <textarea rows="2" placeholder="Ej: Juegos de mesa, andar en bici, cocinar juntos, leer antes de dormir..." class="brutalist-input w-full p-2 text-xs"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BENTO GRID 4: COMPROMISOS Y FIRMAS -->
+            <section class="brutalist-card p-6 sm:p-8 bg-white space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b-3 border-rawBlack pb-3 gap-2">
+                    <div>
+                        <h2 class="font-display font-black text-xl sm:text-2xl uppercase tracking-tight">05 // Firmas de Compromiso Familiar</h2>
+                        <p class="text-xs text-slate-600 font-medium">Este acuerdo evoluciona con nosotros. Lo revisaremos juntos al inicio de cada ciclo escolar o vacaciones.</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-mono font-bold uppercase">Fecha:</span>
+                        <input type="text" placeholder="___ / ___ / 2026" class="brutalist-input px-2.5 py-1 text-xs w-36 text-center">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="border-2 border-rawBlack p-3 bg-slate-50 space-y-2">
+                        <input type="text" placeholder="Adulto / Referente 1" class="brutalist-input w-full p-1.5 text-xs font-bold">
+                        <div class="h-14 bg-white border border-dashed border-rawBlack flex items-end justify-center pb-1">
+                            <span class="text-[10px] font-mono text-slate-400 uppercase">Firma / Iniciales</span>
+                        </div>
+                    </div>
+
+                    <div class="border-2 border-rawBlack p-3 bg-slate-50 space-y-2">
+                        <input type="text" placeholder="Adulto / Referente 2" class="brutalist-input w-full p-1.5 text-xs font-bold">
+                        <div class="h-14 bg-white border border-dashed border-rawBlack flex items-end justify-center pb-1">
+                            <span class="text-[10px] font-mono text-slate-400 uppercase">Firma / Iniciales</span>
+                        </div>
+                    </div>
+
+                    <div class="border-2 border-rawBlack p-3 bg-slate-50 space-y-2">
+                        <input type="text" placeholder="Hijo / Hija 1" class="brutalist-input w-full p-1.5 text-xs font-bold">
+                        <div class="h-14 bg-white border border-dashed border-rawBlack flex items-end justify-center pb-1">
+                            <span class="text-[10px] font-mono text-slate-400 uppercase">Firma / Dibujo</span>
+                        </div>
+                    </div>
+
+                    <div class="border-2 border-rawBlack p-3 bg-slate-50 space-y-2">
+                        <input type="text" placeholder="Hijo / Hija 2" class="brutalist-input w-full p-1.5 text-xs font-bold">
+                        <div class="h-14 bg-white border border-dashed border-rawBlack flex items-end justify-center pb-1">
+                            <span class="text-[10px] font-mono text-slate-400 uppercase">Firma / Dibujo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Micro-mantra de cierre -->
+                <div class="bg-rawBlack text-rawWhite p-4 text-center font-display font-bold text-sm sm:text-base uppercase tracking-wide">
+                    "La tecnología es una gran herramienta cuando está al servicio de la vida, pero la presencia afectiva es insustituible."
                 </div>
             </section>
 
@@ -454,15 +394,15 @@
     </main>
 
     <!-- Modal QR Share -->
-    <div id="qrModal" class="fixed inset-0 bg-rawBlack/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div id="qrModal" class="fixed inset-0 bg-rawBlack/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 no-print">
         <div class="brutalist-card p-6 max-w-sm w-full space-y-4 text-center bg-white relative">
             <button onclick="closeQRModal()" class="absolute top-3 right-3 text-rawBlack hover:bg-slate-100 w-8 h-8 flex items-center justify-center border-2 border-rawBlack font-bold">
                 ✕
             </button>
             
             <div class="space-y-1">
-                <span class="bg-acidYellow border border-rawBlack px-2 py-0.5 font-mono text-[10px] font-bold uppercase">QR Directo</span>
-                <h3 class="font-display font-black text-xl uppercase">Escaneá para Compartir</h3>
+                <span class="bg-acidYellow border border-rawBlack px-2 py-0.5 font-mono text-[10px] font-bold uppercase">Escaneo Móvil</span>
+                <h3 class="font-display font-black text-xl uppercase">Compartir Plan Familiar</h3>
             </div>
 
             <div class="flex justify-center p-4 bg-slate-50 border-2 border-rawBlack min-h-[180px] items-center">
@@ -478,31 +418,37 @@
         </div>
     </div>
 
-    <!-- Editorial Footer with Dual Licenses -->
-    <footer class="bg-rawBlack text-rawWhite py-10 px-4 text-xs font-mono border-t-4 border-rawBlack no-print">
+    <!-- Footer with Dual Open Licenses & Attribution -->
+    <footer class="bg-rawBlack text-rawWhite py-8 px-4 text-xs font-mono border-t-4 border-rawBlack no-print">
         <div class="max-w-7xl mx-auto space-y-4 text-center md:text-left md:flex md:items-center md:justify-between md:space-y-0">
             <div class="space-y-1">
-                <p class="font-bold text-sm tracking-widest uppercase text-acidYellow">#UseTech4Good — Movimiento Human Tech</p>
-                <p class="text-slate-400">Autoría original: <span class="text-white font-bold">@Jalito27</span></p>
+                <p class="font-bold text-sm tracking-widest uppercase text-acidYellow">#UseTech4Good — Plan Familiar de Uso de Pantallas</p>
+                <p class="text-slate-400">Autoría y adaptación: <span class="text-white font-bold">@Jalito27</span> | Referencia clínica: <a href="https://www.healthychildren.org/spanish/fmp/paginas/mediaplan.aspx" target="_blank" class="underline text-slate-300">AAP HealthyChildren.org</a></p>
             </div>
 
             <div class="text-[11px] text-slate-400 max-w-md space-y-1">
                 <p>
-                    Contenido liberado bajo 
+                    Contenido bajo licencia 
                     <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank" class="text-acidYellow underline">CC BY-SA 4.0</a>. 
-                    Código fuente bajo <a href="https://opensource.org/licenses/MIT" target="_blank" class="text-acidYellow underline">Licencia MIT</a>.
+                    Código bajo <a href="https://opensource.org/licenses/MIT" target="_blank" class="text-acidYellow underline">Licencia MIT</a>.
                 </p>
-                <p class="text-slate-500">Copia, redistribución y adaptación libre citando la autoría.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Logic Scripting -->
+    <!-- Scripting: PDF Sync & QR Generator -->
     <script>
         function downloadPDF() {
-            // Synchronize current inputs into DOM attributes for pdf rendering
-            const inputs = document.querySelectorAll('#pdf-content input[type="text"], #pdf-content input[type="time"], #pdf-content input[type="date"]');
-            inputs.forEach(input => input.setAttribute('value', input.value));
+            // Sincronizar valores escritos en inputs y textareas antes de capturar el DOM
+            const inputs = document.querySelectorAll('#pdf-content input[type="text"]');
+            inputs.forEach(input => {
+                input.setAttribute('value', input.value);
+            });
+
+            const textareas = document.querySelectorAll('#pdf-content textarea');
+            textareas.forEach(ta => {
+                ta.textContent = ta.value;
+            });
 
             const checkboxes = document.querySelectorAll('#pdf-content input[type="checkbox"]');
             checkboxes.forEach(cb => {
@@ -514,19 +460,19 @@
             });
 
             const element = document.getElementById('pdf-content');
-            
+            const familyInput = document.getElementById('familyNameHeader').value.trim();
+            const safeName = familyInput ? familyInput.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ_-]/g, '_') : 'Nuestro_Hogar';
+
             const opt = {
-                margin:       [0.2, 0.2, 0.2, 0.2],
-                filename:     'Plan_Familiar_Pantallas_UseTech4Good.pdf',
+                margin:       [0.25, 0.25, 0.25, 0.25],
+                filename:     `Plan_Familiar_Pantallas_${safeName}_AAP.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
+                html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
                 jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
-            html2pdf().set(opt).from(element).save().catch(err => console.error(err));
+            html2pdf().set(opt).from(element).save().catch(err => console.error('Error al generar PDF:', err));
         }
-
-        let qrCodeInstance = null;
 
         function openQRModal() {
             const modal = document.getElementById('qrModal');
@@ -538,7 +484,7 @@
             const qrContainer = document.getElementById('qrcode');
             qrContainer.innerHTML = '';
 
-            qrCodeInstance = new QRCode(qrContainer, {
+            new QRCode(qrContainer, {
                 text: shareUrl,
                 width: 160,
                 height: 160,
@@ -557,21 +503,19 @@
             copyText.select();
             copyText.setSelectionRange(0, 99999);
             
-            try {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(copyText.value);
+            } else {
                 document.execCommand("copy");
-            } catch (err) {
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(copyText.value);
-                }
             }
 
             const btn = event.currentTarget;
             const originalText = btn.innerText;
-            btn.innerText = "¡Listo!";
-            btn.classList.add('bg-lime-400');
+            btn.innerText = "¡Copiado!";
+            btn.classList.add('bg-mintGreen');
             setTimeout(() => {
                 btn.innerText = originalText;
-                btn.classList.remove('bg-lime-400');
+                btn.classList.remove('bg-mintGreen');
             }, 2000);
         }
 
